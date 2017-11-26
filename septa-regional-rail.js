@@ -22,7 +22,10 @@ Module.register("septa-regional-rail", {
 		//Flag for check if module is loaded
 		this.loaded = false;
 
-		this.sendSocketNotification("SEPTA-FETCH-EVENTS", {});
+		this.sendSocketNotification("SEPTA-FETCH-EVENTS", {
+			departureStation: this.config.departureStation,
+			arrivalStation: this.config.arrivalStation,
+		});
 
 
 	},
@@ -56,25 +59,62 @@ Module.register("septa-regional-rail", {
 			var wrapperDataRequest = document.createElement("div");
 			// check format https://jsonplaceholder.typicode.com/posts/1
 			wrapperDataRequest.innerHTML = this.dataRequest;
-
-//			var labelDataRequest = document.createElement("label");
-			// Use translate function
-			//             this id defined in translations files
-//			labelDataRequest.innerHTML = this.translate("TITLE");
-
-
-//			wrapper.appendChild(labelDataRequest);
-			wrapper.appendChild(wrapperDataRequest);
 		}
 
 		// Data from helper
 		if (this.dataNotification) {
-			var wrapperDataNotification = document.createElement("div");
-			// translations  + datanotification
-			wrapperDataNotification.innerHTML =  this.translate("UPDATE") + ": " + this.dataNotification.date;
+			const { departureStation, arrivalStation, trains } = this.dataNotification;
+			const wrapperDataNotification = document.createElement("div");
+
+			const title = document.createElement("div");
+			title.className = "title medium regular normal";
+			title.innerHTML = `${departureStation} to ${arrivalStation}`;
+			wrapperDataNotification.appendChild(title);
+
+			for (x in trains) {
+				const train = trains[x];
+
+				const trainStatus = document.createElement("div");
+				trainStatus.className = train.orig_delay === "On time" ? "train-status large bold" : "train-status small bold";
+				trainStatus.innerHTML = train.orig_delay === "On time" ? ":)" : train.orig_delay;
+
+				const trainStatusContainer = document.createElement("div");
+				trainStatusContainer.className = "train-status-container";
+				trainStatusContainer.appendChild(trainStatus);
+
+				const roundedRect = document.createElement("div");
+				roundedRect.className = "rounded-rect";
+				roundedRect.appendChild(trainStatusContainer);
+
+				const trainName = document.createElement("div");
+				trainName.className = "train-name";
+				trainName.innerHTML = "# " + train.orig_train;
+
+				const trainDeparture = document.createElement("div");
+				trainDeparture.className = "train-departure bold bright";
+				trainDeparture.innerHTML = "Departs: " + train.orig_departure_time;
+
+				const trainArrival = document.createElement("div");
+				trainArrival.className = "train-arrival";
+				trainArrival.innerHTML = "Arrives: " + train.orig_arrival_time;
+
+				const trainInfoWrapper = document.createElement("div");
+				trainInfoWrapper.className = "train-info small thin bright";
+				trainInfoWrapper.appendChild(trainName);
+				trainInfoWrapper.appendChild(trainDeparture);
+				trainInfoWrapper.appendChild(trainArrival);
+
+				const trainSlotContainer = document.createElement("div");
+				trainSlotContainer.className = "train-slot-container";
+				trainSlotContainer.appendChild(roundedRect);
+				trainSlotContainer.appendChild(trainInfoWrapper);
+
+				wrapperDataNotification.appendChild(trainSlotContainer);
+			}
 
 			wrapper.appendChild(wrapperDataNotification);
 		}
+
 		return wrapper;
 	},
 

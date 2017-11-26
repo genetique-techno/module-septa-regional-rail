@@ -8,3 +8,45 @@
  * Custom here your css module
  *
  */
+
+.title {
+	margin-bottom: 20px;
+}
+
+.train-slot-container {
+  /*width: 250px;*/
+  margin-bottom: 10px;
+}
+
+.rounded-rect {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 30px;
+  background-color: grey;
+  height: 100px;
+  width: 100px;
+  border-radius: 15px;
+}
+
+.train-status-container {
+  display: table;
+  vertical-align: middle;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+}
+
+.train-status {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+  color: black;
+}
+
+
+.train-info {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+

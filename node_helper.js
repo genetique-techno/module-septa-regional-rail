@@ -20,14 +20,14 @@ module.exports = NodeHelper.create({
 	 */
 	socketNotificationReceived: function(notification, payload) {
 		if (notification === "SEPTA-FETCH-EVENTS") {
-			this.createFetcher();
+			this.createFetcher(payload);
 		}
 	},
 
-	createFetcher: function() {
+	createFetcher: function({ departureStation, arrivalStation }) {
 		console.log("Creating fetcher for Septa Regional Rail API");
 		var self = this;
-		var urlBase = "https://www3.septa.org/hackathon/NextToArrive/?req1=Ivy+Ridge&req2=Suburban+Station&req3=3&_=";
+		var urlBase = `https://www3.septa.org/hackathon/NextToArrive/?req1=${departureStation.replace(" ", "+")}&req2=${arrivalStation.replace(" ", "+")}&req3=3&_=`;
 
 		function doFetch() {
 		  request({
@@ -35,8 +35,12 @@ module.exports = NodeHelper.create({
 		  	json: true,
 		  }, (err, res, body) => {
 		  	if (!err && res.statusCode === 200) {
-		  		console.log("got successful fetch");
-						self.sendSocketNotification("SEPTA-EVENTS", body);
+		  			const data = {
+		  			  departureStation: departureStation,
+		  			  arrivalStation: arrivalStation,
+		  			  trains: body,
+		  		  };
+						self.sendSocketNotification("SEPTA-EVENTS", data);
 		  	} else {
 						self.sendSocketNotification("SEPTA-FETCH-ERROR", {});
 		  	}
