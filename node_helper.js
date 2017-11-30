@@ -1,5 +1,5 @@
 /* Magic Mirror
- * Node Helper: septa-regional-rail
+ * Node Helper: module-septa-regional-rail
  *
  * By 
  * MIT Licensed.

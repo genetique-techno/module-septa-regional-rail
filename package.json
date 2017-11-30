@@ -1,8 +1,8 @@
 {
-  "name": "septa-regional-rail",
+  "name": "module-septa-regional-rail",
   "version": "1.0.0",
   "description": "Todo: Insert description here!",
-  "main": "septa-regional-rail.js",
+  "main": "module-septa-regional-rail.js",
   "author": "",
   "license": "MIT",
   "devDependencies": {

@@ -1,13 +1,13 @@
 /* global Module */
 
 /* Magic Mirror
- * Module: septa-regional-rail
+ * Module: module-septa-regional-rail
  *
  * By 
  * MIT Licensed.
  */
 
-Module.register("septa-regional-rail", {
+Module.register("module-septa-regional-rail", {
 	defaults: {
 		updateInterval: 60000,
 		retryDelay: 5000
@@ -124,7 +124,7 @@ Module.register("septa-regional-rail", {
 
 	getStyles: function () {
 		return [
-			"septa-regional-rail.css",
+			"module-septa-regional-rail.css",
 		];
 	},
 
